@@ -1,32 +1,12 @@
-from discord import Embed
+class CardDataUnifier:
 
-
-class Card:
-    pass
-
-    def to_embed(self) -> Embed:
+    @classmethod
+    def unify_card_data(cls, data) -> dict:
         pass
 
 
-class CardSpell(Card):
-    pass
+class CardDataProvider:
 
-
-class CardHero(Card):
-    pass
-
-
-class CardCreep(Card):
-    pass
-
-
-class CardAbility(Card):
-    pass
-
-
-class CardPassiveAbility(Card):
-    pass
-
-
-class CardItem(Card):
-    pass
+    @classmethod
+    def get_card(cls, partial_name: str) -> list:
+        pass
