@@ -1,23 +1,22 @@
 # Work with Python 3.6
 from discord.ext.commands import Bot
-from discord import Embed
 from objects import CardFactory, CardList
 from data import CardDataProvider
-
-TOKEN = 'NTE1ODMxMjUwNDM1NTcxNzIz.DtrZHw.vVr3gOnAa5sl8YnG0tdDuks9T5Y'
+import config
 
 client = Bot(command_prefix='!')
 
 
 @client.command()
 async def card(card_name):
-    # Du medżik
-    unified_card_data = CardDataProvider.get_card(card_name)
+    # Retrieve unified card data from CardDataProvider using partial card name
+    unified_card_data = CardDataProvider.get_cards(card_name)
+
+    # Create list of objects which represent cards as close as possible
     card_list: CardList = CardFactory.create_cards(unified_card_data)
 
-    embed = Embed()
-    embed.add_field(name='sdasdsa', value='sdsadasdsadw22434', inline=False)
-    await client.say(embed=embed)
+    # Display an embed with info about card(s)
+    await client.say(embed=card_list.to_embed())
 
 
 @client.event
@@ -28,4 +27,4 @@ async def on_ready():
     print('------')
 
 
-client.run(TOKEN)
+client.run(config.BOT_TOKEN)
