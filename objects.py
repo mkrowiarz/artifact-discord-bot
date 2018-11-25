@@ -12,6 +12,7 @@ class Card:
         embed.set_author(name=self.data['name'], url=self.data['image'], icon_url=self.data['icon'])
         embed.colour = getattr(colour.Color, self.data['color'])()
         embed.url = self.data['image']
+        embed.set_thumbnail(url=self.data['image'])
         # embed.set_image(url=self.data['image'])
         return embed
 

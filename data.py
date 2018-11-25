@@ -56,7 +56,7 @@ class CardDataUnifierArticraft:
             card['color'] = 'dark_gold'
 
         card['icon'] = card_data['images']['icon']
-        card['image'] = card_data['images']['card']
+        card['image'] = card_data['images']['cardArt']
 
         if 'stats' in card_data:
             card['stats'] = {
