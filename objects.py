@@ -16,6 +16,29 @@ class Card:
         embed.colour = getattr(colour.Color, self.data['color'])()
         embed.url = self.data['image']
         embed.set_thumbnail(url=self.data['image'])
+        embed.description = self.data['description'] if 'description' in self.data else None
+        embed.set_footer(text=f'Art by {self.data["artist"]}')
+        return embed
+
+    def add_stats_summary(self, embed: Embed) -> Embed:
+        """
+        Add attack/armor/health stats section to the embed
+        :param embed: Embed to which new field will be addec
+        :return: Returns embed, passed via parameter, which it has already modified
+        """
+        if 'stats' in self.data:
+            stats = self.data['stats']
+            embed.add_field(
+                name='**Stats**',
+                value=f':crossed_swords: **{stats["attack"]}** :shield: **{stats["armor"]}** :heart: **{stats["health"]}**',
+                inline=True)
+
+        if 'mana_cost' in self.data:
+            embed.add_field(
+                name='**Mana cost**',
+                value=f':large_blue_diamond: **{self.data["mana_cost"]}**',
+                inline=True)
+
         return embed
 
 
@@ -29,21 +52,22 @@ class CardHero(Card):
         embed = super(CardHero, self).to_embed()
 
         # Add Signature spell description
-        embed.add_field(name='**Spell**', value=self.data['spell']['name'])
+        embed.add_field(name='**Spell**', value=self.data['spell']['name'], inline=False)
 
         # Add hero's abilities description
         for ability in self.data['abilities']:
-            embed.add_field(name=f'**Ability:** {ability["name"]}', value=ability["description"])
+            embed.add_field(name=f'**Ability:** {ability["name"]}', value=ability["description"], inline=False)
 
-        # Add attack/armor/health stats
-        stats = self.data['stats']
-        embed.add_field(name='**Stats**', value=f':crossed_swords: **{stats["attack"]}** :shield: **{stats["armor"]}**  :heart: **{stats["health"]}**')
-
+        self.add_stats_summary(embed)
         return embed
 
 
 class CardCreep(Card):
-    pass
+
+    def to_embed(self):
+        embed = super(CardCreep, self).to_embed()
+        self.add_stats_summary(embed)
+        return embed
 
 
 class CardItem(Card):
@@ -67,7 +91,7 @@ class CardList(list):
         else:
             embed = Embed()
             embed.type = 'rich'
-            embed.set_author(name='Multiple results')
+            embed.title = 'Multiple results'
             embed.description = "\n".join([str(card) for card in self])
             return embed
 

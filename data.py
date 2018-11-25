@@ -1,15 +1,16 @@
 import requests
-
-"""
+# TODO: Discuss creep description on example of "Oglodi Vandal"
+""" 
+    Each key should be present only if applicable to a certain card type.
     Data format per card:
-    All cards:
         name - name of the card
         color - color to which card belongs
         type  - hero, item, creep, spell, improvement
         icon - to be displayed next to name
         image - URL of a big image representing whole card
         rarity - self explanatory ;)
-    Hero:
+        description - card description
+        mana_cost - cost to play the card
         stats - dict with following keys holding integer values:
             attack
             armor
@@ -21,7 +22,7 @@ import requests
             name - ability's name
             image - URL of ability's image
             description - string with description
-        illustrator - name of the art creator
+        artist - name of the art creator
 """
 
 
@@ -72,7 +73,7 @@ class CardDataUnifierArticraft:
         if 'abilities' in card_data:
             card['abilities'] = cls.get_abilities(card_data['abilities'])
 
-        card['illustrator'] = card_data['artist']['name']  # FIXME: Bug "!card du"
+        card['artist'] = card_data['artist']['name']  # FIXME: Bug "!card du"
 
         return card
 
@@ -127,7 +128,7 @@ class CardDataProviderMock:
         mocked_card_data[0]['stats'] = {'attack': 7, 'armor': 2, 'health': 11}
         mocked_card_data[0]['spell'] = {'name': "Berserker's Call", 'image': 'URL_TO_SPELL'}
         mocked_card_data[0]['abilities'] = [{'name': 'Multicast', 'image': 'URL_TO_ABILITY', 'description': 'After you play a blue spell, there is a 25% chance to put a base copy of that card in to your hand.'}]
-        mocked_card_data[0]['illustrator'] = 'Tyler Jacobson'
+        mocked_card_data[0]['artist'] = 'Tyler Jacobson'
 
         return mocked_card_data
 

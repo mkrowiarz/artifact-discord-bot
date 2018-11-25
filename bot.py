@@ -1,7 +1,7 @@
 # Work with Python 3.6
 from discord.ext.commands import Bot
 from objects import CardFactory, CardList
-from data import CardDataProviderArticraft, CardDataProviderMock
+from data import CardDataProviderArticraft
 import config
 
 client = Bot(command_prefix='!')
