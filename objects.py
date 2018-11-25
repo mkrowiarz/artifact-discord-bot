@@ -90,7 +90,6 @@ class CardItem(Card):
 
     def to_embed(self):
         embed = super(CardItem, self).to_embed()
-        self.add_stats(embed)
         self.add_mana_cost(embed)
         self.add_gold_cost(embed)
         return embed
