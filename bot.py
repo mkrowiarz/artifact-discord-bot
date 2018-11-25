@@ -11,7 +11,7 @@ client = Bot(command_prefix='!')
 async def card(card_name):
     # Retrieve unified card data from CardDataProvider using partial card name
     # unified_card_data = CardDataProvider.get_cards(card_name)
-    unified_card_data = CardDataProviderMock.get_data(card_name)
+    unified_card_data = CardDataProviderArticraft.get_data(card_name)
 
     # Create list of objects which represent cards as close as possible
     card_list: CardList = CardFactory.create_cards(unified_card_data)
