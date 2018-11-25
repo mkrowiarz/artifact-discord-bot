@@ -43,6 +43,7 @@ class CardDataProviderMock:
         mocked_card_data[0]['rarity'] = 'rare'
         mocked_card_data[0]['stats'] = {'attack': 7, 'armor': 2, 'health': 11}
         mocked_card_data[0]['spell'] = {'name': "Berserker's Call", 'image': 'URL_TO_SPELL'}
+        mocked_card_data[0]['abilities'] = [{'name': 'Multicast', 'image': 'URL_TO_ABILITY', 'description': 'After you play a blue spell, there is a 25% chance to put a base copy of that card in to your hand.'}]
         mocked_card_data[0]['illustrator'] = 'Tyler Jacobson'
 
         return mocked_card_data
