@@ -72,7 +72,7 @@ class CardDataUnifierArticraft:
         if 'abilities' in card_data:
             card['abilities'] = cls.get_abilities(card_data['abilities'])
 
-        card['illustrator'] = card_data['artist']['name']
+        card['illustrator'] = card_data['artist']['name']  # FIXME: Bug "!card du"
 
         return card
 
@@ -91,7 +91,7 @@ class CardDataUnifierArticraft:
         for item in items:
             ability = {
                 'type': item['type'],
-                'name': item['name'],  # TODO: Bug "!card magi"
+                'name': item['name'],  # FIXME: !card magi
                 'description': item['description'],
                 'image': item['image']
             }
