@@ -30,7 +30,9 @@ class Card:
             stats = self.data['stats']
             embed.add_field(
                 name='**Stats**',
-                value=f':crossed_swords: **{stats["attack"]}** :shield: **{stats["armor"]}** :heart: **{stats["health"]}**')
+                value=f':crossed_swords: **{stats["attack"]}** '
+                      f':shield: **{stats["armor"]}** '
+                      f':heart: **{stats["health"]}**')
 
         return embed
 
