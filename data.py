@@ -29,14 +29,7 @@ class CardDataUnifierArticraft:
 
     @classmethod
     def unify_card_data(cls, data: list, limit: int = 5) -> list:
-        cards = list()
-
-        for item in data:
-            if len(cards) == limit:
-                break
-            cards.append(cls.unify_card(item))
-
-        return cards
+        return [cls.unify_card(item) for item in data[0:limit]]
 
     @classmethod
     def unify_card(cls, card_data: dict) -> dict:
