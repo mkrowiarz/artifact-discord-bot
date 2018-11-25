@@ -40,6 +40,7 @@ class CardDataUnifierArticraft:
         card['stats'] = dict()
         card['spell'] = dict()
         card['abilities'] = list()
+        card['artist'] = ''
 
         card['type'] = cls.get_type(card_data)
         card['rarity'] = cls.get_rarity(card_data['rarity'])
@@ -74,7 +75,8 @@ class CardDataUnifierArticraft:
         if 'abilities' in card_data:
             card['abilities'] = cls.get_abilities(card_data['abilities'])
 
-        card['artist'] = card_data['artist']['name']  # FIXME: Bug "!card du"
+        if 'artist' in card_data:
+            card['artist'] = card_data['artist']['name']
 
         return card
 
@@ -93,10 +95,24 @@ class CardDataUnifierArticraft:
         for item in items:
             ability = {
                 'type': item['type'],
-                'name': item['name'],  # FIXME: !card magi / !card sele / !card maul
                 'description': item['description'],
-                'image': item['image']
             }
+
+            if 'name' in item:
+                ability['name'] = item['name']
+            else:
+                ability['name'] = ''
+
+            if 'image' in item:
+                ability['image'] = item['image']
+            else:
+                ability['image'] = ''
+
+            if 'cooldown' in item:
+                ability['cooldown'] = item['cooldown']
+            else:
+                ability['cooldown'] = ''
+
             abilities.append(ability)
 
         return abilities
