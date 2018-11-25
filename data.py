@@ -93,7 +93,7 @@ class CardDataUnifierArticraft:
         for item in items:
             ability = {
                 'type': item['type'],
-                'name': item['name'],  # FIXME: !card magi / !card sele
+                'name': item['name'],  # FIXME: !card magi / !card sele / !card maul
                 'description': item['description'],
                 'image': item['image']
             }

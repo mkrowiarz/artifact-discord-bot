@@ -59,7 +59,7 @@ class CardHero(Card):
         embed = super(CardHero, self).to_embed()
 
         # Add Signature spell description
-        embed.add_field(name='**Spell**', value=self.data['spell']['name'], inline=False)
+        embed.add_field(name='**Signature spell**', value=self.data['spell']['name'], inline=False)
 
         # Add hero's abilities description
         for ability in self.data['abilities']:
