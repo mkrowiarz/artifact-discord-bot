@@ -20,7 +20,7 @@ class Card:
         embed.set_footer(text=f'Art by {self.data["artist"]}')
         return embed
 
-    def add_stats_summary(self, embed: Embed) -> Embed:
+    def add_stats(self, embed: Embed) -> Embed:
         """
         Add attack/armor/health stats section to the embed
         :param embed: Embed to which new field will be addec
@@ -30,20 +30,25 @@ class Card:
             stats = self.data['stats']
             embed.add_field(
                 name='**Stats**',
-                value=f':crossed_swords: **{stats["attack"]}** :shield: **{stats["armor"]}** :heart: **{stats["health"]}**',
-                inline=True)
+                value=f':crossed_swords: **{stats["attack"]}** :shield: **{stats["armor"]}** :heart: **{stats["health"]}**')
 
+        return embed
+
+    def add_mana_cost(self, embed: Embed) -> Embed:
         if 'mana_cost' in self.data:
             embed.add_field(
                 name='**Mana cost**',
-                value=f':large_blue_diamond: **{self.data["mana_cost"]}**',
-                inline=True)
+                value=f':large_blue_diamond: **{self.data["mana_cost"]}**')
 
         return embed
 
 
 class CardSpell(Card):
-    pass
+
+    def to_embed(self):
+        embed = super(CardSpell, self).to_embed()
+        self.add_mana_cost(embed)
+        return embed
 
 
 class CardHero(Card):
@@ -58,7 +63,7 @@ class CardHero(Card):
         for ability in self.data['abilities']:
             embed.add_field(name=f'**Ability:** {ability["name"]}', value=ability["description"], inline=False)
 
-        self.add_stats_summary(embed)
+        self.add_stats(embed)
         return embed
 
 
@@ -66,12 +71,27 @@ class CardCreep(Card):
 
     def to_embed(self):
         embed = super(CardCreep, self).to_embed()
-        self.add_stats_summary(embed)
+        self.add_stats(embed)
+        self.add_mana_cost(embed)
         return embed
 
 
 class CardItem(Card):
-    pass
+
+    def add_gold_cost(self, embed: Embed) -> Embed:
+        if 'gold_cost' in self.data:
+            embed.add_field(
+                name='**Mana cost**',
+                value=f':large_blue_diamond: **{self.data["mana_cost"]}**')
+
+        return embed
+
+    def to_embed(self):
+        embed = super(CardItem, self).to_embed()
+        self.add_stats(embed)
+        self.add_mana_cost(embed)
+        self.add_gold_cost(embed)
+        return embed
 
 
 class CardImprovement(Card):
@@ -86,12 +106,17 @@ class CardList(list):
         :return:
         """
 
-        if len(self) == 1:
+        if len(self) == 0:
+            embed = Embed()
+            embed.type = 'rich'
+            embed.title = 'No results found.'
+            return embed
+        elif len(self) == 1:
             return self[0].to_embed()
         else:
             embed = Embed()
             embed.type = 'rich'
-            embed.title = 'Multiple results'
+            embed.title = 'Multiple results found:'
             embed.description = "\n".join([str(card) for card in self])
             return embed
 

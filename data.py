@@ -11,6 +11,7 @@ import requests
         rarity - self explanatory ;)
         description - card description
         mana_cost - cost to play the card
+        gold_cost - cost to buy an item
         stats - dict with following keys holding integer values:
             attack
             armor
