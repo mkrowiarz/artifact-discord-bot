@@ -13,7 +13,7 @@ class Card:
         embed.title = self.data['name']
         embed.colour = getattr(colour.Color, self.data['color'])()
         embed.set_image(url=self.data['image'])
-        return Embed()
+        return embed
 
 
 class CardSpell(Card):
@@ -27,14 +27,13 @@ class CardHero(Card):
 
         # Add attack/armor/health stats
         stats = self.data['stats']
-        embed.add_field(name='Stats', value=f'{stats["attack"]} / {stats["armour"]} / {stats["health"]}', inline=False)
+        embed.add_field(name='Stats', value=f'{stats["attack"]} / {stats["armor"]} / {stats["health"]}', inline=False)
 
         # Add Signature spell description
         # TODO: Display in a better way with link to the spell's image etc.
-        embed.add_field(name='Signature spell', value=self.data['signature_spell']['name'], inline=False)
+        embed.add_field(name='Signature spell', value=self.data['spell']['name'], inline=False)
 
-
-
+        return embed
 
 
 class CardCreep(Card):

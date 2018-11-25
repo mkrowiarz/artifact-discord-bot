@@ -1,7 +1,7 @@
 # Work with Python 3.6
 from discord.ext.commands import Bot
 from objects import CardFactory, CardList
-from data import CardDataProvider
+from data import CardDataProvider, CardDataMock
 import config
 
 client = Bot(command_prefix='!')
@@ -10,7 +10,8 @@ client = Bot(command_prefix='!')
 @client.command()
 async def card(card_name):
     # Retrieve unified card data from CardDataProvider using partial card name
-    unified_card_data = CardDataProvider.get_cards(card_name)
+    # unified_card_data = CardDataProvider.get_cards(card_name)
+    unified_card_data = CardDataMock.single_card()
 
     # Create list of objects which represent cards as close as possible
     card_list: CardList = CardFactory.create_cards(unified_card_data)
