@@ -1,28 +1,31 @@
+"""
+    Data format per card:
+    All cards:
+        name - name of the card
+        color - color to which card belongs
+        type  - hero, item, creep, spell, improvement
+        icon - to be displayed next to name
+        image - URL of a big image representing whole card
+        rarity - self explanatory ;)
+    Hero:
+        stats - dict with following keys holding integer values:
+            attack
+            armor
+            health
+        spell - hero's signature spell, represented by dict with following keys
+            name - spell's name
+            image - URL of spell's image
+        abilities - list hero's abilities, represented by entries (dicts) with following keys
+            name - ability's name
+            image - URL of ability's image
+            description - string with description
+        illustrator - name of the art creator
+"""
+
 class CardDataUnifierArticraft:
 
     @classmethod
     def unify_card_data(cls, data) -> list:
-        """
-        Data format per card:
-        All cards:
-            name - name of the card
-            color - color to which card belongs
-            type  - hero, item, creep, spell, improvement
-            icon - to be displayed next to name
-            image - URL of a big image representing whole card
-            rarity - self explanatory ;)
-        Hero:
-            stats - dict with following keys holding integer values:
-                attack
-                armor
-                health
-            spell - hero's signature spell, represented by dict with following keys (# TODO: to be discussed)
-                name - spell's name
-                image - URL of spell's image
-            illustrator - name of the art creator
-        :param data:
-        :return:
-        """
         return list()
 
 
