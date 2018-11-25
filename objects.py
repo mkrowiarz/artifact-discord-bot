@@ -9,10 +9,10 @@ class Card:
     def to_embed(self) -> Embed:
         embed = Embed()
         embed.type = 'rich'
-        # TODO: Add self.data['icon'] to the title
-        embed.title = self.data['name']
+        embed.set_author(name=self.data['name'], url=self.data['image'], icon_url=self.data['icon'])
         embed.colour = getattr(colour.Color, self.data['color'])()
-        embed.set_image(url=self.data['image'])
+        embed.url = self.data['image']
+        # embed.set_image(url=self.data['image'])
         return embed
 
 
@@ -25,13 +25,16 @@ class CardHero(Card):
     def to_embed(self):
         embed = super(CardHero, self).to_embed()
 
+        # Add Signature spell description
+        embed.add_field(name='**Spell**', value=self.data['spell']['name'])
+
+        # Add hero's abilities description
+        for ability in self.data['abilities']:
+            embed.add_field(name=f'**Ability:** {ability["name"]}', value=ability["description"])
+
         # Add attack/armor/health stats
         stats = self.data['stats']
-        embed.add_field(name='Stats', value=f'{stats["attack"]} / {stats["armor"]} / {stats["health"]}', inline=False)
-
-        # Add Signature spell description
-        # TODO: Display in a better way with link to the spell's image etc.
-        embed.add_field(name='Signature spell', value=self.data['spell']['name'], inline=False)
+        embed.add_field(name='**Stats**', value=f':crossed_swords: **{stats["attack"]}** :shield: **{stats["armor"]}**  :heart: **{stats["health"]}**')
 
         return embed
 
@@ -60,7 +63,7 @@ class CardList(list):
             return self[0].to_embed()
         else:
             # TODO: Create actual embed info about the list of items
-            return 'Embed'
+            return Embed().set_author(name='NOT YET IMPLEMENTED FOR LISTS')
 
 
 class CardFactory:
