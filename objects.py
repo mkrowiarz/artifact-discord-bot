@@ -6,6 +6,9 @@ class Card:
     def __init__(self, data: dict):
         self.data = data
 
+    def __str__(self):
+        return self.data['name']
+
     def to_embed(self) -> Embed:
         embed = Embed()
         embed.type = 'rich'
@@ -13,7 +16,6 @@ class Card:
         embed.colour = getattr(colour.Color, self.data['color'])()
         embed.url = self.data['image']
         embed.set_thumbnail(url=self.data['image'])
-        # embed.set_image(url=self.data['image'])
         return embed
 
 
@@ -63,8 +65,11 @@ class CardList(list):
         if len(self) == 1:
             return self[0].to_embed()
         else:
-            # TODO: Create actual embed info about the list of items
-            return Embed().set_author(name='NOT YET IMPLEMENTED FOR LISTS')
+            embed = Embed()
+            embed.type = 'rich'
+            embed.set_author(name='Multiple results')
+            embed.description = "\n".join([str(card) for card in self])
+            return embed
 
 
 class CardFactory:

@@ -84,13 +84,14 @@ class CardDataUnifierArticraft:
             return card_data['type']
 
     @classmethod
+    # TODO: Discuss
     def get_abilities(cls, items: list) -> list:
         abilities = list()
 
         for item in items:
             ability = {
                 'type': item['type'],
-                'name': item['name'],
+                'name': item['name'],  # TODO: Bug "!card magi"
                 'description': item['description'],
                 'image': item['image']
             }
