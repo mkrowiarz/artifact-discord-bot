@@ -1,5 +1,4 @@
 from discord import Embed
-from discord import colour
 
 
 class Card:
@@ -13,7 +12,7 @@ class Card:
         embed = Embed()
         embed.type = 'rich'
         embed.set_author(name=self.data['name'], url=self.data['image'], icon_url=self.data['icon'])
-        embed.colour = getattr(colour.Color, self.data['color'])()  # FIXME: Bug for colors: black, neutral "!card coup" / "!card melee creep"
+        embed.colour = self.get_color(self.data['color'])
         embed.url = self.data['image']
         embed.set_thumbnail(url=self.data['image'])
         embed.description = self.data['description'] if 'description' in self.data else None
@@ -43,6 +42,22 @@ class Card:
                 value=f':large_blue_diamond: **{self.data["mana_cost"]}**')
 
         return embed
+
+    def get_color(self, color: str) -> int:
+        colors = {
+            'red': 0xe74c3c,
+            'orange': 0xe67e22,
+            'green': 0x2ecc71,
+            'dark_gold': 0xc27c0e,
+            'black': 0x000000,
+            'blue': 0x3498db,
+            'neutral': 0x0
+        }
+
+        if color in colors:
+            return colors[color]
+        else:
+            return 0
 
 
 class CardSpell(Card):
