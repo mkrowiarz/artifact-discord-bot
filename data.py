@@ -41,6 +41,9 @@ class CardDataUnifierArticraft:
         card['spell'] = dict()
         card['abilities'] = list()
         card['artist'] = ''
+        card['gold_cost'] = None
+        card['mana_cost'] = None
+        card['description'] = ''
 
         card['type'] = cls.get_type(card_data)
         card['rarity'] = cls.get_rarity(card_data['rarity'])
@@ -77,6 +80,15 @@ class CardDataUnifierArticraft:
 
         if 'artist' in card_data:
             card['artist'] = card_data['artist']['name']
+
+        if 'description' in card_data:
+            card['description'] = card_data['description']
+
+        if 'gold' in card_data:
+            card['gold_cost'] = card_data['gold']
+
+        if 'mana' in card_data:
+            card['mana_cost'] = card_data['mana']
 
         return card
 

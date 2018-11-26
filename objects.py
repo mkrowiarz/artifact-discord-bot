@@ -13,7 +13,7 @@ class Card:
         embed = Embed()
         embed.type = 'rich'
         embed.set_author(name=self.data['name'], url=self.data['image'], icon_url=self.data['icon'])
-        embed.colour = getattr(colour.Color, self.data['color'])()
+        embed.colour = getattr(colour.Color, self.data['color'])()  # FIXME: Bug for colors: black, neutral "!card coup" / "!card melee creep"
         embed.url = self.data['image']
         embed.set_thumbnail(url=self.data['image'])
         embed.description = self.data['description'] if 'description' in self.data else None
