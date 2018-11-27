@@ -98,8 +98,8 @@ class CardItem(Card):
     def add_gold_cost(self, embed: Embed) -> Embed:
         if 'gold_cost' in self.data:
             embed.add_field(
-                name='**Mana cost**',
-                value=f':large_blue_diamond: **{self.data["mana_cost"]}**')
+                name='**Gold cost**',
+                value=f':moneybag: **{self.data["gold_cost"]}**')
 
         return embed
 

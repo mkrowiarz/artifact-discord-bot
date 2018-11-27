@@ -37,14 +37,6 @@ class CardDataUnifierArticraft:
     def unify_card(cls, card_data: dict) -> dict:
         card = dict()
 
-        card['stats'] = dict()
-        card['spell'] = dict()
-        card['abilities'] = list()
-        card['artist'] = ''
-        card['gold_cost'] = None
-        card['mana_cost'] = None
-        card['description'] = ''
-
         card['type'] = cls.get_type(card_data)
         card['rarity'] = cls.get_rarity(card_data['rarity'])
 
@@ -100,7 +92,6 @@ class CardDataUnifierArticraft:
             return card_data['type']
 
     @classmethod
-    # TODO: Discuss
     def get_abilities(cls, items: list) -> list:
         abilities = list()
 
@@ -132,14 +123,13 @@ class CardDataUnifierArticraft:
     @classmethod
     def get_rarity(cls, rarity: int) -> str:
         if rarity == 0:
-            return 'no_rarity'
+            return 'No rarity'
         elif rarity == 1:
-            return 'common'
+            return 'Common'
         elif rarity == 2:
-            return 'rare'
+            return 'Rare'
         else:
-            return 'very_rare'
-        pass
+            return 'Very rare'  # FIXME: No such rarity
 
 
 class CardDataProviderMock:
