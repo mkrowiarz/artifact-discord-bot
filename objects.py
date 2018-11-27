@@ -16,7 +16,6 @@ class Card:
         embed.url = self.data['image']
         embed.set_thumbnail(url=self.data['image'])
         embed.description = self.data['description'] if 'description' in self.data else None
-        embed.set_footer(text=f'Art by {self.data["artist"]}')
         return embed
 
     def add_stats(self, embed: Embed) -> Embed:
@@ -32,6 +31,17 @@ class Card:
                 value=f':crossed_swords: **{stats["attack"]}** '
                       f':shield: **{stats["armor"]}** '
                       f':heart: **{stats["health"]}**')
+
+        return embed
+
+    def add_abilities(self, embed: Embed) -> Embed:
+        """
+        Add description of active abilities
+        :param embed:
+        :return:
+        """
+        for ability in self.data['abilities']:
+            embed.add_field(name=f'**Ability:** {ability["name"]}', value=ability["description"], inline=False)
 
         return embed
 
@@ -73,12 +83,10 @@ class CardHero(Card):
     def to_embed(self):
         embed = super(CardHero, self).to_embed()
 
-        # Add Signature spell description
-        embed.add_field(name='**Signature spell**', value=self.data['spell']['name'], inline=False)
+        self.add_abilities(embed)
 
-        # Add hero's abilities description
-        for ability in self.data['abilities']:
-            embed.add_field(name=f'**Ability:** {ability["name"]}', value=ability["description"], inline=False)
+        # Add Signature card description
+        embed.add_field(name='**Signature card**', value=self.data['spell']['name'], inline=False)
 
         self.add_stats(embed)
         return embed
@@ -111,7 +119,11 @@ class CardItem(Card):
 
 
 class CardImprovement(Card):
-    pass
+
+    def to_embed(self):
+        embed = super(CardImprovement, self).to_embed()
+        self.add_mana_cost(embed)
+        return embed
 
 
 class CardList(list):
