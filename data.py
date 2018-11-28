@@ -1,4 +1,7 @@
 import requests
+from bs4 import BeautifulSoup
+import urllib.parse
+
 # TODO: Discuss creep description on example of "Oglodi Vandal"
 """ 
     Each key should be present only if applicable to a certain card type.
@@ -82,6 +85,9 @@ class CardDataUnifierArticraft:
         if 'mana' in card_data:
             card['mana_cost'] = card_data['mana']
 
+        if 'market_data' in card_data:
+            card['card_market_data'] = card_data['market_data']
+
         return card
 
     @classmethod
@@ -159,4 +165,40 @@ class CardDataProviderArticraft:
         r = requests.get('https://api.articraft.io/api/cards/search?search=' + partial_name)
         r.raise_for_status()
 
-        return CardDataUnifierArticraft.unify_card_data(r.json(), limit)
+        items = r.json()
+
+        # Only query Steam market if a single card is found to save time in the initial version.
+        if len(r.json()) == 1:
+            items = [
+                SteamMarketPriceProvider.get_market_data(items[0])
+            ]
+
+        return CardDataUnifierArticraft.unify_card_data(items, limit)
+
+
+class SteamMarketPriceProvider:
+
+    @classmethod
+    def get_market_data(cls, card: dict) -> dict:
+        """
+        Query Steam marketplace to grab information about card price.
+        :param card: Raw card data got from CardDataProvider.
+        :return: Card data with `market_data` key, if card was found in the marketplace listings.
+        """
+        page = requests.get(
+            'https://steamcommunity.com/market/search?appid=583950&q=' +
+            urllib.parse.quote_plus(card['name'])
+        )
+        soup = BeautifulSoup(page.content, 'html.parser')
+
+        for link in soup.find_all('a', {'class': 'market_listing_row_link'}):
+            item_name = link.find('span', {'class': 'market_listing_item_name'}).getText()
+            if item_name.lower() == card['name'].lower():
+                item_price_span = link.find('span', {'data-price': True})
+
+                card['market_data'] = {
+                    'price': int(item_price_span.get('data-price')),
+                    'currency_id': int(item_price_span.get('data-currency'))
+                }
+
+        return card

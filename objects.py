@@ -16,6 +16,7 @@ class Card:
         embed.url = self.data['image']
         embed.set_thumbnail(url=self.data['image'])
         embed.description = self.data['description'] if 'description' in self.data else None
+        self.add_market_data(embed)
         return embed
 
     def add_stats(self, embed: Embed) -> Embed:
@@ -68,6 +69,28 @@ class Card:
             return colors[color]
         else:
             return 0
+
+    def add_market_data(self, embed: Embed) -> Embed:
+        """
+        Add information about card price to the embed
+        :param embed: Embed to which new field (footer) will be added
+        :return: Returns embed, passed via parameter, which was modified here
+        """
+        currency = {
+            1: 'USD',
+            2: 'GBP',
+            3: 'EUR'
+        }
+
+        if 'card_market_data' not in self.data:
+            return embed
+
+        price = self.data['card_market_data']['price'] / 100
+        currency_code = currency[self.data['card_market_data']['currency_id']]
+
+        embed.set_footer(text=f'Card price: {price} {currency_code}')
+
+        return embed
 
 
 class CardSpell(Card):
