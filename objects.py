@@ -76,19 +76,12 @@ class Card:
         :param embed: Embed to which new field (footer) will be added
         :return: Returns embed, passed via parameter, which was modified here
         """
-        currency = {
-            1: 'USD',
-            2: 'GBP',
-            3: 'EUR'
-        }
-
-        if 'card_market_data' not in self.data:
+        if 'steam_market_data' not in self.data:
             return embed
 
-        price = self.data['card_market_data']['price'] / 100
-        currency_code = currency[self.data['card_market_data']['currency_id']]
-
-        embed.set_footer(text=f'Card price: {price} {currency_code}')
+        # TODO: Make it configurable to tell which prices should be displayed, if available in provided data
+        prices = self.data['steam_market_data']['prices']
+        embed.set_footer(text=f'Card price: {prices["USD"]} USD | {format(prices["PLN"], ".2f")} PLN')
 
         return embed
 
